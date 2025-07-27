@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ticketSchema = new mongoose.Schema({
   event: {
@@ -44,4 +44,4 @@ const ticketSchema = new mongoose.Schema({
 // Add indexes for better performance
 ticketSchema.index({ event: 1, isDeleted: 1 });
 
-module.exports = mongoose.model('Ticket', ticketSchema);
+export default mongoose.model('Ticket', ticketSchema);

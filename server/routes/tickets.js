@@ -1,7 +1,7 @@
-const express = require('express');
-const Ticket = require('../models/Ticket');
-const Event = require('../models/Event');
-const { protect } = require('../middleware/auth');
+import express from 'express';
+import Ticket from '../models/Ticket.js';
+import Event from '../models/Event.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -229,4 +229,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

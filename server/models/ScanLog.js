@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const scanLogSchema = new mongoose.Schema({
   assignedTicket: {
@@ -34,4 +34,4 @@ const scanLogSchema = new mongoose.Schema({
 scanLogSchema.index({ assignedTicket: 1 });
 scanLogSchema.index({ scannedAt: 1 });
 
-module.exports = mongoose.model('ScanLog', scanLogSchema);
+export default mongoose.model('ScanLog', scanLogSchema);

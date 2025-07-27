@@ -1,7 +1,7 @@
-const express = require('express');
-const Coupon = require('../models/Coupon');
-const Event = require('../models/Event');
-const { protect } = require('../middleware/auth');
+import express from 'express';
+import Coupon from '../models/Coupon.js';
+import Event from '../models/Event.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -360,4 +360,4 @@ router.post('/:id/use', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

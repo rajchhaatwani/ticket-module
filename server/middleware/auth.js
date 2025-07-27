@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const Organizer = require('../models/Organizer');
+import jwt from 'jsonwebtoken';
+import Organizer from '../models/Organizer.js';
 
 const protect = async (req, res, next) => {
   try {
@@ -43,4 +43,4 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+export { protect };

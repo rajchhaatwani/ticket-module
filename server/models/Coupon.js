@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const couponSchema = new mongoose.Schema({
   event: {
@@ -72,4 +72,4 @@ couponSchema.virtual('isActive').get(function() {
   return now >= this.validFrom && now <= this.validUntil && this.usedCount < this.usageLimit;
 });
 
-module.exports = mongoose.model('Coupon', couponSchema);
+export default mongoose.model('Coupon', couponSchema);

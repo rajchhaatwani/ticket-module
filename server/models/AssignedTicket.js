@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const assignedTicketSchema = new mongoose.Schema({
   ticket: {
@@ -40,4 +40,4 @@ assignedTicketSchema.index({ userEmail: 1 });
 assignedTicketSchema.index({ qrCode: 1 });
 assignedTicketSchema.index({ status: 1 });
 
-module.exports = mongoose.model('AssignedTicket', assignedTicketSchema);
+export default mongoose.model('AssignedTicket', assignedTicketSchema);

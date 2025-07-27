@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const organizerSchema = new mongoose.Schema({
   name: {
@@ -53,4 +53,4 @@ organizerSchema.methods.toJSON = function() {
   return organizer;
 };
 
-module.exports = mongoose.model('Organizer', organizerSchema);
+export default mongoose.model('Organizer', organizerSchema);

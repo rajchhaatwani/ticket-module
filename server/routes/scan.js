@@ -1,7 +1,7 @@
-const express = require('express');
-const ScanLog = require('../models/ScanLog');
-const AssignedTicket = require('../models/AssignedTicket');
-const { protect } = require('../middleware/auth');
+import express from 'express';
+import ScanLog from '../models/ScanLog.js';
+import AssignedTicket from '../models/AssignedTicket.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -141,8 +141,8 @@ router.get('/logs', async (req, res) => {
     
     if (eventId) {
       // Get tickets for the specific event
-      const Event = require('../models/Event');
-      const Ticket = require('../models/Ticket');
+      const Event = (await import('../models/Event.js')).default;
+      const Ticket = (await import('../models/Ticket.js')).default;
       
       // Verify event belongs to organizer
       const event = await Event.findOne({
@@ -173,8 +173,8 @@ router.get('/logs', async (req, res) => {
       matchCondition.assignedTicket = { $in: assignedTicketIds };
     } else {
       // Get all events for organizer
-      const Event = require('../models/Event');
-      const Ticket = require('../models/Ticket');
+      const Event = (await import('../models/Event.js')).default;
+      const Ticket = (await import('../models/Ticket.js')).default;
       
       const events = await Event.find({ 
         organizer: req.organizer._id, 
@@ -239,8 +239,8 @@ router.get('/logs', async (req, res) => {
 // @access  Private
 router.get('/stats/:eventId', async (req, res) => {
   try {
-    const Event = require('../models/Event');
-    const Ticket = require('../models/Ticket');
+    const Event = (await import('../models/Event.js')).default;
+    const Ticket = (await import('../models/Ticket.js')).default;
     
     // Verify event belongs to organizer
     const event = await Event.findOne({
@@ -322,4 +322,4 @@ router.get('/stats/:eventId', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

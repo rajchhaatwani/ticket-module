@@ -1,6 +1,6 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const Organizer = require('../models/Organizer');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import Organizer from '../models/Organizer.js';
 
 const router = express.Router();
 
@@ -123,7 +123,9 @@ router.post('/login', async (req, res) => {
 // @desc    Get current organizer profile
 // @route   GET /api/auth/me
 // @access  Private
-router.get('/me', require('../middleware/auth').protect, async (req, res) => {
+import { protect } from '../middleware/auth.js';
+
+router.get('/me', protect, async (req, res) => {
   try {
     res.status(200).json({
       success: true,
@@ -140,4 +142,4 @@ router.get('/me', require('../middleware/auth').protect, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
