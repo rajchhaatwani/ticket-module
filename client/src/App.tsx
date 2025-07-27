@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'wouter';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Layout from './components/common/Layout';
@@ -12,77 +12,70 @@ import AssignmentList from './components/assignments/AssignmentList';
 import CouponList from './components/coupons/CouponList';
 import QRScanner from './components/scanner/QRScanner';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/signup" element={<SignupForm />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/events"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <EventList />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/tickets"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <TicketList />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/assignments"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <AssignmentList />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/coupons"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <CouponList />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/scanner"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <QRScanner />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Switch>
+          <Route path="/login" component={LoginForm} />
+          <Route path="/signup" component={SignupForm} />
+          <Route path="/dashboard">
+            <ProtectedRoute>
+              <Layout>
+                <Dashboard />
+              </Layout>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/events">
+            <ProtectedRoute>
+              <Layout>
+                <EventList />
+              </Layout>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/tickets">
+            <ProtectedRoute>
+              <Layout>
+                <TicketList />
+              </Layout>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/assignments">
+            <ProtectedRoute>
+              <Layout>
+                <AssignmentList />
+              </Layout>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/coupons">
+            <ProtectedRoute>
+              <Layout>
+                <CouponList />
+              </Layout>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/scanner">
+            <ProtectedRoute>
+              <Layout>
+                <QRScanner />
+              </Layout>
+            </ProtectedRoute>
+          </Route>
+          <Route path="/">
+            <Redirect to="/dashboard" />
+          </Route>
+        </Switch>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
