@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -11,6 +11,7 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState('');
 
   const { login } = useAuth();
+  const [, setLocation] = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,8 +20,10 @@ const LoginForm: React.FC = () => {
 
     try {
       await login({ email, password });
-    } catch (err) {
-      setError('Invalid email or password');
+      // Redirect to dashboard after successful login
+      setLocation('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }

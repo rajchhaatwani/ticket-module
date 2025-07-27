@@ -2,58 +2,69 @@ export interface Organizer {
   _id: string;
   name: string;
   email: string;
-  created_at: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Event {
   _id: string;
-  organizer_id: string;
+  organizer: string;
   name: string;
   description: string;
-  start_time: string;
-  end_time: string;
+  startTime: string;
+  endTime: string;
   venue: string;
-  is_deleted: boolean;
-  created_at: string;
+  isDeleted?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Ticket {
   _id: string;
-  event_id: string;
+  event: string;
   type: string;
   price: number;
-  total_quantity: number;
-  available_quantity: number;
-  is_deleted: boolean;
-  created_at: string;
+  totalQuantity: number;
+  availableQuantity: number;
+  isDeleted?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AssignedTicket {
   _id: string;
-  ticket_id: string;
-  user_email: string;
-  qr_code: string;
+  ticket: string;
+  userEmail: string;
+  qrCode: string;
   status: 'assigned' | 'used' | 'cancelled';
-  assigned_at: string;
+  assignedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Coupon {
   _id: string;
-  event_id: string;
+  event: string;
   code: string;
-  discount_type: 'fixed' | 'percentage';
-  discount_value: number;
-  usage_limit: number;
-  used_count: number;
-  valid_from: string;
-  valid_until: string;
+  discountType: 'fixed' | 'percentage';
+  discountValue: number;
+  usageLimit: number;
+  usedCount: number;
+  validFrom: string;
+  validUntil: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ScanLog {
   _id: string;
-  assigned_ticket_id: string;
-  scanned_by: string;
-  scanned_at: string;
+  assignedTicket: string;
+  scannedBy: string;
+  scannedAt?: string;
+  location?: string;
+  notes?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface LoginCredentials {

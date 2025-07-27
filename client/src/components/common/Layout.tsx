@@ -86,7 +86,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <li>
                 <ul className="-mx-2 space-y-1">
                   {navigation.map((item) => {
-                    const isActive = location.pathname === item.href;
+                    const isActive = location === item.href;
                     return (
                       <li key={item.name}>
                         <Link

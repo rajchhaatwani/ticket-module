@@ -62,48 +62,73 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Mock successful login
-    const mockUser: Organizer = {
-      _id: '1',
-      name: 'John Organizer',
-      email: credentials.email,
-      created_at: new Date().toISOString(),
-    };
-    
-    const mockToken = 'mock-jwt-token-' + Date.now();
-    
-    localStorage.setItem('ticket_token', mockToken);
-    localStorage.setItem('ticket_user', JSON.stringify(mockUser));
-    
-    dispatch({
-      type: 'LOGIN_SUCCESS',
-      payload: { user: mockUser, token: mockToken },
-    });
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      if (data.success && data.data) {
+        const { organizer, token } = data.data;
+        
+        localStorage.setItem('ticket_token', token);
+        localStorage.setItem('ticket_user', JSON.stringify(organizer));
+        
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: { user: organizer, token },
+        });
+      } else {
+        throw new Error('Invalid response format');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
   };
 
   const signup = async (data: SignupData) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const mockUser: Organizer = {
-      _id: '1',
-      name: data.name,
-      email: data.email,
-      created_at: new Date().toISOString(),
-    };
-    
-    const mockToken = 'mock-jwt-token-' + Date.now();
-    
-    localStorage.setItem('ticket_token', mockToken);
-    localStorage.setItem('ticket_user', JSON.stringify(mockUser));
-    
-    dispatch({
-      type: 'LOGIN_SUCCESS',
-      payload: { user: mockUser, token: mockToken },
-    });
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Registration failed');
+      }
+
+      if (result.success && result.data) {
+        const { organizer, token } = result.data;
+        
+        localStorage.setItem('ticket_token', token);
+        localStorage.setItem('ticket_user', JSON.stringify(organizer));
+        
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: { user: organizer, token },
+        });
+      } else {
+        throw new Error('Invalid response format');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      throw error;
+    }
   };
 
   const logout = () => {
