@@ -29,26 +29,7 @@ const connectDB = async () => {
 // Connect to database
 connectDB();
 
-// Import MongoDB routes using dynamic imports
-const setupRoutes = async () => {
-  const authRoutes = (await import('./routes/auth.js')).default;
-  const eventRoutes = (await import('./routes/events.js')).default;
-  const ticketRoutes = (await import('./routes/tickets.js')).default;
-  const assignmentRoutes = (await import('./routes/assignments.js')).default;
-  const couponRoutes = (await import('./routes/coupons.js')).default;
-  const scanRoutes = (await import('./routes/scan.js')).default;
-
-  // API Routes - Add these BEFORE the existing routes
-  app.use('/api/auth', authRoutes);
-  app.use('/api/events', eventRoutes);
-  app.use('/api/tickets', ticketRoutes);
-  app.use('/api/assignments', assignmentRoutes);
-  app.use('/api/coupons', couponRoutes);
-  app.use('/api/scan', scanRoutes);
-};
-
-// Setup routes after imports
-setupRoutes();
+// MongoDB routes will be registered in registerRoutes() function
 
 app.use((req, res, next) => {
   const start = Date.now();
