@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
 import { 
   Calendar, 
   Ticket, 
@@ -20,8 +20,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [location, setLocation] = useLocation();
   const { user, logout } = useAuth();
 
   const navigation = [
@@ -35,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    setLocation('/login');
   };
 
   return (
@@ -55,7 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
           <nav className="mt-6 px-3">
             {navigation.map((item) => {
-              const isActive = location.pathname === item.href;
+              const isActive = location === item.href;
               return (
                 <Link
                   key={item.name}
@@ -87,7 +86,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <li>
                 <ul className="-mx-2 space-y-1">
                   {navigation.map((item) => {
-                    const isActive = location.pathname === item.href;
+                    const isActive = location === item.href;
                     return (
                       <li key={item.name}>
                         <Link

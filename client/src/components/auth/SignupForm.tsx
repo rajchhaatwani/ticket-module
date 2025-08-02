@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
 import { Mail, Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -16,6 +16,7 @@ const SignupForm: React.FC = () => {
   const [error, setError] = useState('');
 
   const { signup } = useAuth();
+  const [, setLocation] = useLocation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -47,8 +48,10 @@ const SignupForm: React.FC = () => {
         email: formData.email,
         password: formData.password,
       });
-    } catch (err) {
-      setError('An error occurred during signup');
+      // Redirect to dashboard after successful signup
+      setLocation('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
